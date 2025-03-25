@@ -140,23 +140,6 @@ export default function SlangSearch() {
       .catch(() => alert("Failed to send report."));
   };
 
-  // AdSense Script Loading
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1769160871110575";
-    script.async = true;
-    script.crossOrigin = "anonymous";
-    document.head.appendChild(script);
-    
-    script.onload = () => {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    };
-    
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center p-5 relative">
       <div className="absolute inset-0 z-0">
@@ -168,7 +151,7 @@ export default function SlangSearch() {
           <OrbitControls enableZoom={false} />
         </Canvas>
       </div>
-      
+
       <div className="relative z-10 w-full max-w-4xl">
         <h1 className="text-5xl font-bold mb-10 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 neon-text">
           GenZ Slang Finder
@@ -190,17 +173,16 @@ export default function SlangSearch() {
           </Button>
         </Card>
 
-        {/* Ad Block */}
+        {/* Ad Space */}
         <div className="mt-8 p-6 bg-gray-900 bg-opacity-75 backdrop-blur-md rounded-xl shadow-2xl">
-          <h2 className="text-2xl font-bold mb-4 text-white">Sponsored</h2>
-          <ins
-            className="adsbygoogle"
-            style={{ display: "block" }}
-            data-ad-client="ca-pub-1769160871110575"
-            data-ad-slot="8409160404"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          ></ins>
+          <h2 className="text-2xl font-bold mb-4 text-white">Sponsored Ad</h2>
+          <AdSense.Google
+            client='ca-pub-1769160871110575'
+            slot='8409160404'
+            style={{ display: 'block' }}
+            format='auto'
+            responsive='true'
+          />
         </div>
       </div>
     </div>

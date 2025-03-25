@@ -9,6 +9,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
+import AdsComponent from './AdsComponent';
+
 
 const genAI = new GoogleGenerativeAI("xxx");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -176,13 +178,15 @@ export default function SlangSearch() {
         {/* Ad Space */}
         <div className="mt-8 p-6 bg-gray-900 bg-opacity-75 backdrop-blur-md rounded-xl shadow-2xl">
           <h2 className="text-2xl font-bold mb-4 text-white">Sponsored Ad</h2>
-          <AdSense.Google
+          <AdsComponent dataAdSlot='8409160404' />
+
+          {/* <AdSense.Google
             client='ca-pub-1769160871110575'
             slot='8409160404'
             style={{ display: 'block' }}
             format='auto'
             responsive='true'
-          />
+          /> */}
         </div>
       </div>
     </div>

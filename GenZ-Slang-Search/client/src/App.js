@@ -144,7 +144,7 @@ export default function SlangSearch() {
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
-      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-";
+      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1769160871110575";
     script.async = true;
     script.crossOrigin = "anonymous";
     document.head.appendChild(script);
@@ -197,8 +197,8 @@ export default function SlangSearch() {
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
-            data-ad-client="ca-pub-"
-            data-ad-slot=""
+            data-ad-client="ca-pub-1769160871110575"
+            data-ad-slot="8409160404"
             data-ad-format="auto"
             data-full-width-responsive="true"
             data-ad-test="on"

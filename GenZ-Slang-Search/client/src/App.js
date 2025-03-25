@@ -71,7 +71,7 @@ export default function SlangSearch() {
 
   const fetchMostSearched = async () => {
     try {
-      const response = await axios.get("http://44.212.68.8:5000/api/slang");
+      const response = await axios.get("http://localhost:5000/api/slang");
       const sortedData = response.data.sort((a, b) => b.count - a.count);
       setMostSearched(sortedData);
     } catch (err) {
@@ -97,7 +97,7 @@ export default function SlangSearch() {
         setDefinition("Slang not found!");
         setError("Slang not found!");
       } else {
-        await axios.post("http://44.212.68.8:5000/api/slang", {
+        await axios.post("http://localhost:5000/api/slang", {
           term: word,
           meaning: geminiResponse,
         });
@@ -115,7 +115,7 @@ export default function SlangSearch() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://44.212.68.8:5000/api/slang/search?term=${term}`
+        `http://localhost:5000/api/slang/search?term=${term}`
       );
       if (response.data) {
         setDefinition(response.data.meaning);

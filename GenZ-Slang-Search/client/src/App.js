@@ -143,16 +143,15 @@ export default function SlangSearch() {
   // AdSense Script Loading
   useEffect(() => {
     const script = document.createElement("script");
-    script.src =
-      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1769160871110575";
+    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1769160871110575";
     script.async = true;
     script.crossOrigin = "anonymous";
     document.head.appendChild(script);
-
+    
     script.onload = () => {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     };
-
+    
     return () => {
       document.head.removeChild(script);
     };
@@ -169,7 +168,7 @@ export default function SlangSearch() {
           <OrbitControls enableZoom={false} />
         </Canvas>
       </div>
-
+      
       <div className="relative z-10 w-full max-w-4xl">
         <h1 className="text-5xl font-bold mb-10 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 neon-text">
           GenZ Slang Finder
@@ -191,9 +190,9 @@ export default function SlangSearch() {
           </Button>
         </Card>
 
-        {/* Ad Space */}
+        {/* Ad Block */}
         <div className="mt-8 p-6 bg-gray-900 bg-opacity-75 backdrop-blur-md rounded-xl shadow-2xl">
-          <h2 className="text-2xl font-bold mb-4 text-white">Ad Space</h2>
+          <h2 className="text-2xl font-bold mb-4 text-white">Sponsored</h2>
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
@@ -201,7 +200,6 @@ export default function SlangSearch() {
             data-ad-slot="8409160404"
             data-ad-format="auto"
             data-full-width-responsive="true"
-            data-ad-test="on"
           ></ins>
         </div>
       </div>

@@ -8,25 +8,52 @@ import emailjs from "emailjs-com";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
+import { OrbitControls, Stars, Text } from "@react-three/drei";
+import { EffectComposer, Glitch } from "@react-three/postprocessing";
 import AdsComponent from './AdsComponent';
-
+import './styles/futuristic.css';
 
 const genAI = new GoogleGenerativeAI("xxx");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-// 3D Sphere Component
+// Enhanced 3D Sphere Component
 function Sphere() {
   const meshRef = useRef();
-  useFrame(() => {
-    meshRef.current.rotation.x += 0.01;
-    meshRef.current.rotation.y += 0.01;
+  useFrame((state) => {
+    meshRef.current.rotation.x += 0.005;
+    meshRef.current.rotation.y += 0.005;
+    meshRef.current.position.z = Math.sin(state.clock.getElapsedTime()) * 2;
   });
+  
   return (
     <mesh ref={meshRef}>
-      <sphereGeometry args={[1, 32, 32]} />
-      <meshStandardMaterial color="#00ff00" wireframe />
+      <sphereGeometry args={[1.5, 64, 64]} />
+      <meshStandardMaterial 
+        color="#00ff9d" 
+        emissive="#00ff9d"
+        emissiveIntensity={0.5}
+        wireframe
+        wireframeLinewidth={1}
+      />
     </mesh>
+  );
+}
+
+// Floating 3D Text
+function FloatingText() {
+  return (
+    <Text
+      color="#00ff9d"
+      fontSize={1}
+      maxWidth={10}
+      lineHeight={1}
+      letterSpacing={0.1}
+      position={[0, 3, -5]}
+      rotation={[0, 0, 0]}
+    >
+      GEN-Z SLANG
+      <meshStandardMaterial emissive="#00ff9d" emissiveIntensity={1} />
+    </Text>
   );
 }
 
@@ -142,51 +169,145 @@ export default function SlangSearch() {
       .catch(() => alert("Failed to send report."));
   };
 
+
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center p-5 relative">
-      <div className="absolute inset-0 z-0">
+    <div className="min-h-screen bg-transparent text-white flex justify-center items-center p-4 relative overflow-hidden">
+      {/* Enhanced 3D Background */}
+      <div className="canvas-container">
         <Canvas>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} />
+          <ambientLight intensity={0.2} />
+          <pointLight position={[10, 10, 10]} intensity={1} color="#00ff9d" />
+          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ff00e4" />
+          
           <Sphere />
-          <Stars radius={100} depth={50} count={5000} factor={4} />
-          <OrbitControls enableZoom={false} />
+          <FloatingText />
+          <Stars radius={100} depth={50} count={2000} factor={6} saturation={0} fade speed={2} />
+          
+          <EffectComposer>
+            <Glitch
+              delay={[1.5, 3.5]}
+              duration={[0.6, 1.0]}
+              strength={[0.1, 0.3]}
+              active
+            />
+          </EffectComposer>
+          
+          <OrbitControls 
+            enableZoom={false} 
+            enablePan={false}
+            autoRotate
+            autoRotateSpeed={0.5}
+          />
         </Canvas>
       </div>
 
-      <div className="relative z-10 w-full max-w-4xl">
-        <h1 className="text-5xl font-bold mb-10 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 neon-text">
+      {/* Main Content */}
+      <div className="center-container">
+        <div className="content-wrapper">
+        {/* Header with animation */}
+        <motion.h1 className="text-4xl md:text-5xl font-bold mb-8 neon-text">
           GenZ Slang Finder
-        </h1>
+        </motion.h1>
 
-        <Card className="w-full p-6 bg-gray-900 bg-opacity-75 backdrop-blur-md rounded-xl shadow-2xl">
-          <Input
-            placeholder="Search for a slang..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="text-white bg-gray-800 border-gray-700 mb-4"
-          />
-          <Button
-            onClick={() => handleSearch()}
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-            disabled={loading}
-          >
-            {loading ? <Loader className="animate-spin" /> : "Search"}
-          </Button>
-        </Card>
+        {/* Search Card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          <Card className="glass-card p-6 w-full">
+            <div className="input-group">
+            <Input
+              placeholder="Search for a slang..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full futuristic-input mb-6"
+            />
+            <Button
+              onClick={() => handleSearch()}
+              className="w-full glow-button py-6 text-lg"
+              disabled={loading}
+            >
+              {loading ? (
+                <Loader className="animate-spin" />
+              ) : (
+                <span className="text-shadow">SEARCH</span>
+              )}
+            </Button>
+            </div>
+  
+            {definition && (
+              
+              <motion.div 
+                className="mt-6 p-4 bg-black bg-opacity-50 rounded-lg border border-primary border-opacity-30"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                <p className="text-lg font-mono text-gray-200">{definition}</p>
+              </motion.div>
+            )}
+          </Card>
+        </motion.div>
 
         {/* Ad Space */}
-        <div className="mt-8 p-6 bg-gray-900 bg-opacity-75 backdrop-blur-md rounded-xl shadow-2xl">
-          <h2 className="text-2xl font-bold mb-4 text-white">Sponsored Ad</h2>
-          <AdsComponent dataAdSlot='8409160404' />
+        <motion.div
+          className="mt-10 glass-card p-6 ad-container"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          <h2 className="text-xl font-bold mb-4 text-center text-gray-300">Sponsored</h2>
+          <div className="glass-card mt-6 w-full p-4">
 
-          {/* <AdSense.Google
-            client='ca-pub-1769160871110575'
-            slot='8409160404'
-            style={{ display: 'block' }}
-            format='auto'
-            responsive='true'
-          /> */}
+          <AdsComponent dataAdSlot='8409160404' />
+          </div>
+
+        </motion.div>
+
+        {/* Most Searched Slangs - Add this section if needed */}
+        {mostSearched.length > 0 && (
+                      <div className="glass-card mt-6 w-full p-4">
+
+          <motion.div 
+            className="mt-10 glass-card p-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.9 }}
+          >
+            <h2 className="text-2xl font-bold mb-4 text-center neon-text">Trending Slangs</h2>
+            <div className="grid grid-cols-2 gap-3 responsive-grid">
+              {mostSearched.slice(0, showMore ? mostSearched.length : 6).map(({ term, count }, index) => (
+                <motion.div 
+                  key={index}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    variant="outline"
+                    className="w-full bg-black bg-opacity-50 hover:bg-opacity-70 border border-primary border-opacity-30"
+                    onClick={() => {
+                      setSearchTerm(term);
+                      handleSearch(term);
+                    }}
+                  >
+                    <span className="text-primary">{term}</span>
+                    <span className="ml-2 text-gray-400">({count})</span>
+                  </Button>
+                </motion.div>
+              ))}
+            </div>
+            {mostSearched.length > 6 && (
+              <Button
+                onClick={() => setShowMore(!showMore)}
+                className="mt-4 w-full glow-button py-4"
+              >
+                {showMore ? "SHOW LESS" : "LOAD MORE"}
+              </Button>
+            )}
+          </motion.div>
+          </div>
+
+        )}
         </div>
       </div>
     </div>

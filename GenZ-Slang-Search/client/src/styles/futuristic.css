@@ -1,0 +1,190 @@
+/* Base Styles */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;700&display=swap');
+/* Base Styles */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;700&display=swap');
+
+:root {
+  --primary: #00ff9d;
+  --secondary: #00b8ff;
+  --accent: #ff00e4;
+  --dark: #0a0a12;
+  --light: #f0f0f0;
+  --glass: rgba(15, 15, 25, 0.3); /* More transparent */
+}
+
+/* Layout */
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 500px; /* Optimal mobile width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Input & Button Stack */
+.input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Transparent Cards */
+.glass-card {
+  background: var(--glass) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(16px) !important;
+  width: 100%;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+  .content-wrapper {
+    padding: 0 1rem;
+  }
+  
+  .neon-text {
+    font-size: 2rem !important;
+    text-align: center;
+  }
+  
+  .input-group {
+    gap: 0.8rem;
+  }
+}
+
+/* Keep other existing styles from previous CSS */
+
+:root {
+  --primary: #00ff9d;
+  --secondary: #00b8ff;
+  --accent: #ff00e4;
+  --dark: #0a0a12;
+  --light: #f0f0f0;
+  --glass: rgba(15, 15, 25, 0.5);
+}
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+}
+
+/* 3D Background Enhancement */
+.canvas-container {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Typography */
+.neon-text {
+  font-family: 'Orbitron', sans-serif;
+  text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+  letter-spacing: 2px;
+}
+
+/* Card Glass Effect */
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 255, 157, 0.1);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  box-shadow: 0 8px 32px 0 rgba(0, 255, 157, 0.3);
+  transform: translateY(-5px);
+}
+
+/* Input Field */
+.futuristic-input {
+  background: rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid var(--primary) !important;
+  color: var(--light) !important;
+  font-size: 1.1rem;
+  padding: 1rem !important;
+  transition: all 0.3s ease;
+}
+
+.futuristic-input:focus {
+  box-shadow: 0 0 10px var(--primary) !important;
+  border-color: var(--secondary) !important;
+}
+
+/* Buttons */
+.glow-button {
+  background: linear-gradient(45deg, var(--primary), var(--secondary)) !important;
+  border: none !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.glow-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, var(--secondary), var(--accent));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-button:hover::before {
+  opacity: 1;
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  .responsive-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .neon-text {
+    font-size: 2.5rem !important;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Ad Container */
+.ad-container {
+  border: 1px solid rgba(0, 255, 157, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+}

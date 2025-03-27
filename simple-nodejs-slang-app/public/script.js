@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Configuration
   const EMAILJS_CONFIG = {
-    SERVICE_ID: 'your_service_id',
-    TEMPLATE_ID: 'your_template_id',
-    USER_ID: 'your_user_id'
+    SERVICE_ID: 'service_fejvhex',
+    TEMPLATE_ID: 'template_ha3th1d',
+    USER_ID: 'C_jEsdHAAE4hn_TLP'
   };
 
   // State

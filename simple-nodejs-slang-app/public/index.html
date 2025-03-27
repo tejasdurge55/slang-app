@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futuristic Slang Finder</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="cyberpunk-effect"></div>
+    
+    <!-- Desktop Side Images (Left) -->
+    <div class="side-images-desktop left-image">
+      <img src="left-image.jpg" alt="Decorative image">
+    </div>
+    
+    <!-- Main Content (Same as your mobile layout) -->
+    <div class="content-wrapper">
+      <div class="main-content">
+        <div class="search-card">
+ 
+        <h1 class="neon-title">GEN-Z SLANG FINDER</h1>
+        
+          <input type="text" id="searchInput" placeholder="Enter slang term..." class="futuristic-input">
+          <button id="searchBtn" class="glow-button">SEARCH</button>
+        </div>
+        
+        <div id="resultContainer" class="result-container hidden">
+          <p id="resultText"></p>
+          <button id="reportBtn" class="small-button" style="display: none;"></button>
+        </div>
+      </div>
+      
+      <div class="trending-section">
+        <h2 class="neon-subtitle">TRENDING SLANGS</h2>
+        <div id="trendingList" class="trending-grid"></div>
+        <button id="showMoreBtn" class="load-more-btn">LOAD MORE</button>
+      </div>
+      
+      <!-- Mobile Side Images (Bottom) -->
+      <div class="side-images-mobile">
+        <img src="left-image.jpg" alt="Decorative image">
+        <img src="right-image.jpg" alt="Decorative image">
+      </div>
+    </div>
+    
+    <!-- Desktop Side Images (Right) -->
+    <div class="side-images-desktop right-image">
+      <img src="right-image.jpg" alt="Decorative image">
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

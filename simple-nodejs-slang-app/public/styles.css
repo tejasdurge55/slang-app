@@ -1,6 +1,6 @@
 :root {
   --primary: #4a6bff;
-  --secondary: #ff3b3b;
+  --secondary: #f80303;
   --accent: #6b4aff;
   --bg-dark: #0f0f1a;
   --bg-light: #1a1a2e;
@@ -52,6 +52,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%;
 }
 
 .side-images-mobile {
@@ -63,9 +64,9 @@ body {
 
 .side-images-mobile img {
   width: 48%;
-  max-height: 150px;
+  /* max-height: 150px; */
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 2px;
 }
 
 /* Hide desktop side images on mobile */
@@ -77,17 +78,23 @@ body {
 @media (min-width: 992px) {
   .container {
     display: grid;
-    grid-template-columns: 200px 1fr 200px;
-    gap: 0.5rem;
+    grid-template-columns: 200px minmax(0, 1fr) 200px;
+    gap: 1rem;
+    padding: 1rem;
   }
 
   .content-wrapper {
     grid-column: 2;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
   }
 
   .side-images-desktop {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 0;
   }
 
   .side-images-desktop img {
@@ -99,6 +106,18 @@ body {
 
   .side-images-mobile {
     display: none;
+  }
+
+  .search-card,
+  .result-container {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .trending-section {
+    width: 100%;
   }
 }
 
@@ -155,11 +174,6 @@ body {
     0 0 30px var(--accent);
 }
 
-.glow-button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
 .result-container {
   width: 100%;
   max-width: 600px;
@@ -168,32 +182,32 @@ body {
   border-radius: 8px;
   padding: 1rem;
   box-shadow: 0 0 15px rgba(74, 107, 255, 0.2);
-}
-
-.result-container p {
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-.small-button {
-  background: transparent;
-  border: 1px solid var(--secondary);
-  color: var(--text);
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: block;
   margin: 0 auto;
 }
 
-.small-button:hover {
-  background: rgba(255, 59, 59, 0.2);
-  box-shadow: 0 0 10px var(--secondary);
+.neon-title {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  width: fit-content;
+  padding: 0 1rem;
+  text-shadow: 
+    0 0 5px var(--primary),
+    0 0 10px var(--primary),
+    0 0 20px var(--primary);
+  letter-spacing: 0.2rem;
+  animation: flicker 3s infinite alternate;
 }
 
-.trending-section {
-  width: 100%;
+.neon-subtitle {
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 1rem 0;
+  text-shadow: 
+    0 0 3px var(--primary),
+    0 0 6px var(--primary);
+  letter-spacing: 0.1rem;
 }
 
 .trending-grid {
@@ -211,33 +225,11 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
 
 .trending-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 0 15px var(--primary);
-  background: rgba(74, 107, 255, 0.1);
-}
-
-.trending-item span {
-  color: var(--text-dim);
-  font-size: 0.8rem;
-}
-
-.hidden {
-  display: none;
-}
-
-.spinner {
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(255,255,255,0.3);
-  border-radius: 50%;
-  border-top-color: var(--primary);
-  animation: spin 1s ease-in-out infinite;
-  margin: 0 auto;
 }
 
 .load-more-btn {
@@ -289,12 +281,6 @@ body {
 @media (max-width: 768px) {
   .neon-title {
     font-size: 2rem;
-  text-align: center;
-  margin: 0 auto; /* Center the element itself */
-  display: block; /* Ensure it takes full width */
-  width: fit-content; /* Only take as much width as needed */
-  padding: 0 1rem; /* Add some padding to prevent edge touching */
-
   }
   
   .search-card, .result-container {
@@ -306,14 +292,87 @@ body {
   }
 }
 
-@media (min-width: 992px) {
-  .content-wrapper {
-    flex-direction: row;
-    gap: 0.5rem;
-  }
-  
-  .trending-section {
-    width: 150px;
-    margin-top: 0;
-  }
+/* Report Button Styles */
+.small-button {
+  background: transparent;
+  border: 1px solid var(--secondary);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 0.5rem auto 0;
+  position: relative;
+  overflow: hidden;
+  font-size: 0.9rem;
 }
+
+/* Hover Effect */
+.small-button:hover {
+  background: rgba(255, 59, 59, 0.1);
+  box-shadow: 
+    0 0 8px var(--secondary),
+    0 0 15px rgba(255, 59, 59, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Active/Press Effect */
+.small-button:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 0 5px var(--secondary),
+    0 0 10px rgba(255, 59, 59, 0.2);
+}
+
+/* Glow Effect */
+.small-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 59, 59, 0.1) 0%,
+    rgba(255, 59, 59, 0) 60%
+  );
+  transform: rotate(30deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.small-button:hover::after {
+  left: 100%;
+  opacity: 1;
+}
+
+/* Loading State */
+.small-button.loading {
+  pointer-events: none;
+  color: transparent;
+}
+
+.small-button.loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--secondary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Disabled State */
+.small-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+

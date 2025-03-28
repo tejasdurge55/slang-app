@@ -109,6 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
   async function sendReport() {
     const term = searchInput.value.trim();
     const type = reportBtn.dataset.type;
+    // When sending report
+    reportBtn.classList.add('loading');
+    reportBtn.disabled = true;
 
     if (!term) return;
 
@@ -146,6 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ? 'Report Missing Slang' 
         : 'Report Incorrect Meaning';
     }
+    // When report completes
+    reportBtn.classList.remove('loading');
+    reportBtn.disabled = false;
+
   }
 
   // Load more trending items

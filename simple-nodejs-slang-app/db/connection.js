@@ -1,5 +1,5 @@
 const mysql = require('mysql2/promise');
-require('dotenv').config({ path: '/root/slang-finder/.env' });
+require('dotenv').config({ path: '../.env' });
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',

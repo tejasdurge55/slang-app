@@ -27,6 +27,7 @@ DB_PASSWORD=xxx
 DB_NAME=slang_db
 PORT=5000
 GEMINI_API_KEY=${google_api_key}
+EMAILJS_ACCESS_TOKEN=xxx
 EOF
 
 

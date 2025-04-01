@@ -195,20 +195,114 @@ resource "aws_key_pair" "ec2_key" {
   public_key = file("/home/codespace/.ssh/id_rsa.pub")
 }
 
+# Second Public Subnet in us-east-1b
+resource "aws_subnet" "public_b" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.3.0/24"
+  availability_zone       = "us-east-1b"
+  map_public_ip_on_launch = true
+  tags = { Name = "public-subnet-b" }
+}
 
-# Outputs
-output "ec2_public_ip" {
-  value = aws_instance.app_server.public_ip
+# Associate Public Subnet B with Public Route Table
+resource "aws_route_table_association" "public_b" {
+  subnet_id      = aws_subnet.public_b.id
+  route_table_id = aws_route_table.public.id
+}
+
+# Second EC2 Instance in us-east-1b
+resource "aws_instance" "app_server_b" {
+  ami                    = "ami-0c7217cdde317cfec" # Ubuntu 22.04 LTS
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.public_b.id
+  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+  key_name               = aws_key_pair.ec2_key.key_name
+
+  depends_on = [aws_db_instance.database]
+
+  user_data = base64encode(templatefile("${path.module}/templates/userdata.tpl", {
+    db_instance_address = aws_db_instance.database.address
+    db_username         = var.db_username
+    db_password         = var.db_password
+    ec2_public_ip       = var.ec2_public_ip
+    google_api_key      = var.google_api_key
+  }))
+
+  tags = { Name = "app-server-b" }
+}
+
+# Application Load Balancer
+resource "aws_lb" "app_lb" {
+  name               = "app-load-balancer"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.ec2_sg.id]
+  subnets            = [aws_subnet.public.id, aws_subnet.public_b.id]
+
+  enable_deletion_protection = false
+
+  tags = {
+    Environment = "production"
+  }
+}
+
+resource "aws_lb_target_group" "app_tg" {
+  name     = "app-target-group"
+  port     = 5000 # Match your application port
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.main.id
+
+  health_check {
+    path                = "/"
+    protocol            = "HTTP"
+    timeout             = 5
+    interval            = 30
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+}
+
+resource "aws_lb_listener" "app_listener" {
+  load_balancer_arn = aws_lb.app_lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app_tg.arn
+  }
+}
+
+# Attach instances to target group
+resource "aws_lb_target_group_attachment" "instance_a" {
+  target_group_arn = aws_lb_target_group.app_tg.arn
+  target_id        = aws_instance.app_server.id
+  port             = 5000
+}
+
+resource "aws_lb_target_group_attachment" "instance_b" {
+  target_group_arn = aws_lb_target_group.app_tg.arn
+  target_id        = aws_instance.app_server_b.id
+  port             = 5000
+}
+
+# Updated Outputs
+output "ec2_public_ips" {
+  value = {
+    us_east_1a = aws_instance.app_server.public_ip
+    us_east_1b = aws_instance.app_server_b.public_ip
+  }
+}
+
+output "load_balancer_dns" {
+  value = aws_lb.app_lb.dns_name
 }
 
 output "rds_endpoint" {
   value = aws_db_instance.database.address
 }
 
-output "user_data_vars" {
-  value = {
-    db_instance_address = aws_db_instance.database.address
-    db_username         = var.db_username
-    ec2_public_ip       = var.ec2_public_ip
-  }
-}
+
+
+
+
